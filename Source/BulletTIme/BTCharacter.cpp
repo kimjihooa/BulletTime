@@ -70,6 +70,7 @@ void ABTCharacter::SetWeapon(ABTWeapon* NewWeapon)
 			CurrentWeapon->Destroy();
 		NewWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
 		NewWeapon->SetOwner(this);
+		NewWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));
 		CurrentWeapon = NewWeapon;
 	}
 }
