@@ -25,8 +25,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		UArrowComponent* Arrow;
 	UPROPERTY(EditAnywhere)
-		float ChargeRate;
-	float ChargeAmount;
+		float ChargeSpeed;
+	int ChargeAmount;
 	FTimerHandle FireTimerHandle;
 };
 

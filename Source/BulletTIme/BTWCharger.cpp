@@ -26,22 +26,22 @@ ABTWCharger::ABTWCharger()
 	}
 	Weapon->SetCollisionProfileName(TEXT("NoCollision"));
 
-	ChargeRate = 0.1f;
-	ChargeAmount = 0.01f;
-	DamageMultiplier = 3.0f;
+	ChargeSpeed = 0.05f;
+	ChargeAmount = 0;
+	DamageMultiplier = 1.0f;
 }
 void ABTWCharger::StartAttack()
 {
-	GetWorld()->GetTimerManager().SetTimer(FireTimerHandle, this, &ABTWCharger::Charge, ChargeRate, true);
+	GetWorld()->GetTimerManager().SetTimer(FireTimerHandle, this, &ABTWCharger::Charge, ChargeSpeed, true);
 }
 void ABTWCharger::Charge()
 {
-	if (ChargeAmount < 0.1)
-		ChargeAmount += 0.01f;
+	if (ChargeAmount < 100)
+		ChargeAmount += 1;
 }
 void ABTWCharger::StopAttack()
 {
-	float Energy = ChargeAmount * 10;
+	float Energy = ChargeAmount * 0.1;
 	GetWorld()->GetTimerManager().ClearTimer(FireTimerHandle);
 	FVector Location = Arrow->GetComponentLocation();
 	FRotator Rotation = Arrow->GetComponentRotation();
@@ -49,7 +49,7 @@ void ABTWCharger::StopAttack()
 	if (Bullet != nullptr)
 	{
 		Bullet->SetActorScale3D(FVector(Energy, Energy, Energy));
-		Bullet->DamageMultiplier = Energy * DamageMultiplier;
+		Bullet->DamageMultiplier = Energy;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Energy : %f"), Energy);
 	ChargeAmount = 0.0f;
