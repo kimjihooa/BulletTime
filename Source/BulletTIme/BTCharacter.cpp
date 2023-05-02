@@ -63,7 +63,7 @@ void ABTCharacter::BeginPlay()
 
 void ABTCharacter::SetWeapon(ABTWeapon* NewWeapon)
 {
-	FName WeaponSocket(TEXT("hand_rSocket"));
+	FName WeaponSocket(TEXT("middle_01_rSocket"));
 	if (NewWeapon != nullptr)
 	{
 		if(CurrentWeapon != nullptr)
