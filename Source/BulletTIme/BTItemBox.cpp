@@ -53,7 +53,7 @@ void ABTItemBox::OnCharacterOverlap(UPrimitiveComponent* OverlappedComp, AActor*
 	ABTCharacter* BTCharacter = Cast<ABTCharacter>(OtherActor);
 	if (BTCharacter != nullptr && WeaponClass != nullptr)
 	{
-		ABTWeapon* NewWeapon = GetWorld()->SpawnActor<ABTWeapon>(WeaponClass, FVector::ZeroVector, FRotator::ZeroRotator);
+		ABTWeapon* NewWeapon = WeaponClass->GetDefaultObject<ABTWeapon>();
 		BTCharacter->SetWeapon(NewWeapon);
 		UE_LOG(LogTemp, Warning, TEXT("Weapon Changed!"));
 	}

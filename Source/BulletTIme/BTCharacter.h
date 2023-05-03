@@ -33,11 +33,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = true))
 		UCameraComponent* Camera;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = true))
 		USpringArmComponent* SpringArm;
-	//UPROPERTY(VisibleAnywhere, Category = UI)
-	//	UWidgetComponent* HPBarWidget;
 	void SetWeapon(class ABTWeapon* NewWeapon);
 	UPROPERTY(Visibleanywhere, Category = Weapon)
 		class ABTWeapon* CurrentWeapon;
@@ -50,7 +47,7 @@ public:
 	UFUNCTION()
 		void StopAttack();
 	UFUNCTION()
-		void HoldWeapon();
+		void HoldWeapon(ABTWeapon* Weapon);
 	UFUNCTION()
 		void PutWeapon();
 	UFUNCTION()

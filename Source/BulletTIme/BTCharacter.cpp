@@ -77,52 +77,62 @@ void ABTCharacter::SetWeapon(ABTWeapon* NewWeapon)
 }
 void ABTCharacter::ChangeWeapon()
 {
-	if(CurrentWeapon != nullptr)
+	if (CurrentWeapon != nullptr) //If holding something
 	{
-		if(SubWeapon != nullptr)
+		if (CurrentWeapon == MainWeapon) //If holding main
 		{
-			if(CurrentWeapon == MainWeapon)
+			if (SubWeapon != nullptr)
 			{
-				CurrentWeapon = SubWeapon;
-				HoldWeapon();
+				CurrentWeapon = SubWeapon; //Change to sub
+				HoldWeapon(SubWeapon);
 			}
 		}
-		if (MainWeapon != nullptr)
+		else //If holding sub
 		{
-			if (CurrentWeapon == SubWeapon)
+			if (MainWeapon != nullptr)
 			{
-				CurrentWeapon = MainWeapon;
-				HoldWeapon();
+				CurrentWeapon = MainWeapon; //Change to main
+				HoldWeapon(MainWeapon);
 			}
 		}
 	}
-	else
+	else //If holding nothing
 	{
-		if (MainWeapon != nullptr)
+		if (MainWeapon != nullptr) //If Main existes
 		{
 			CurrentWeapon = MainWeapon;
-			HoldWeapon();
+			HoldWeapon(MainWeapon);
 		}
-		else
+		if (SubWeapon != nullptr)
 		{
-			CurrentWeapon = SubWeapon;
-			HoldWeapon();
+			CurrentWeapon = SubWeapon; //If sub existes
+			HoldWeapon(SubWeapon);
 		}
+		return;
 	}
 }
 void ABTCharacter::PutWeapon()
 {
 	CurrentWeapon->Destroy();
+	CurrentWeapon = nullptr;
 }
-void ABTCharacter::HoldWeapon()
+void ABTCharacter::HoldWeapon(ABTWeapon* Weapon)
 {
-	if (CurrentWeapon != nullptr)
+	if (Weapon == CurrentWeapon)
+		return;
+	else
 	{
-		CurrentWeapon->Destroy();
-		FName WeaponSocket(TEXT("middle_01_rSocket"));
-		AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
-		CurrentWeapon->SetOwner(this);
-		SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));
+		if (CurrentWeapon != nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("sdfsdfsfdsfs"));
+			CurrentWeapon->Destroy();
+			Weapon = GetWorld()->SpawnActor<ABTWeapon>(FVector::ZeroVector, FRotator::ZeroRotator);
+			FName WeaponSocket(TEXT("middle_01_rSocket"));
+			Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+			Weapon->SetOwner(this);
+			Weapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
+			CurrentWeapon = Weapon;
+		}
 	}
 }
 
