@@ -84,7 +84,7 @@ void ABTCharacter::ChangeWeapon()
 			if (SubWeapon != nullptr)
 			{
 				CurrentWeapon = SubWeapon; //Change to sub
-				HoldWeapon(SubWeapon);
+				HoldWeapon(CurrentWeapon);
 			}
 		}
 		else //If holding sub
@@ -92,7 +92,7 @@ void ABTCharacter::ChangeWeapon()
 			if (MainWeapon != nullptr)
 			{
 				CurrentWeapon = MainWeapon; //Change to main
-				HoldWeapon(MainWeapon);
+				HoldWeapon(CurrentWeapon);
 			}
 		}
 	}
@@ -101,12 +101,12 @@ void ABTCharacter::ChangeWeapon()
 		if (MainWeapon != nullptr) //If Main existes
 		{
 			CurrentWeapon = MainWeapon;
-			HoldWeapon(MainWeapon);
+			HoldWeapon(CurrentWeapon);
 		}
 		if (SubWeapon != nullptr)
 		{
 			CurrentWeapon = SubWeapon; //If sub existes
-			HoldWeapon(SubWeapon);
+			HoldWeapon(CurrentWeapon);
 		}
 		return;
 	}
