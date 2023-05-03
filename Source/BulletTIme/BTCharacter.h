@@ -41,10 +41,21 @@ public:
 	void SetWeapon(class ABTWeapon* NewWeapon);
 	UPROPERTY(Visibleanywhere, Category = Weapon)
 		class ABTWeapon* CurrentWeapon;
+	UPROPERTY(Visibleanywhere, Category = Weapon)
+		class ABTWeapon* MainWeapon;
+	UPROPERTY(Visibleanywhere, Category = Weapon)
+		class ABTWeapon* SubWeapon;
 	UFUNCTION()
 		void StartAttack();
 	UFUNCTION()
 		void StopAttack();
+	UFUNCTION()
+		void HoldWeapon();
+	UFUNCTION()
+		void PutWeapon();
+	UFUNCTION()
+		void ChangeWeapon();
+	bool IsHoldingWeapon;
 
 private:
 	void StartJump();

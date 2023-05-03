@@ -26,6 +26,7 @@ ABTWPistol::ABTWPistol()
 	}
 	Weapon->SetCollisionProfileName(TEXT("NoCollision"));
 
+	IsMainWeapon = false;
 	FireRate = 0.5f;
 	CanFire = true;
 	DamageMultiplier = 0.5f;

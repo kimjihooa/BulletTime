@@ -7,7 +7,7 @@
 // Sets default values
 ABTCharacter::ABTCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Set this character to call Tick() every frame.  You can turn this off to improve performance ifyou don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//PrimaryActorTick.bStartWithTickEnabled = false;
 
@@ -34,7 +34,7 @@ ABTCharacter::ABTCharacter()
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh>
 		SM_BODY(TEXT("/Engine/Tutorial/SubEditors/TutorialAssets/Character/TutorialTPP.TutorialTPP"));
-	if (SM_BODY.Succeeded())
+	if(SM_BODY.Succeeded())
 	{
 		USkeletalMeshComponent* MyMesh = GetMesh();
 		MyMesh->SetSkeletalMesh(SM_BODY.Object);
@@ -63,17 +63,69 @@ void ABTCharacter::BeginPlay()
 
 void ABTCharacter::SetWeapon(ABTWeapon* NewWeapon)
 {
-	FName WeaponSocket(TEXT("middle_01_rSocket"));
-	if (NewWeapon != nullptr)
+	if(NewWeapon != nullptr)
 	{
-		if(CurrentWeapon != nullptr)
-			CurrentWeapon->Destroy();
-		NewWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
-		NewWeapon->SetOwner(this);
-		NewWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));
-		CurrentWeapon = NewWeapon;
+		if(NewWeapon->IsMainWeapon)
+		{
+			MainWeapon = NewWeapon;
+		}
+		else
+		{
+			SubWeapon = NewWeapon;
+		}
 	}
 }
+void ABTCharacter::ChangeWeapon()
+{
+	if(CurrentWeapon != nullptr)
+	{
+		if(SubWeapon != nullptr)
+		{
+			if(CurrentWeapon == MainWeapon)
+			{
+				CurrentWeapon = SubWeapon;
+				HoldWeapon();
+			}
+		}
+		if (MainWeapon != nullptr)
+		{
+			if (CurrentWeapon == SubWeapon)
+			{
+				CurrentWeapon = MainWeapon;
+				HoldWeapon();
+			}
+		}
+	}
+	else
+	{
+		if (MainWeapon != nullptr)
+		{
+			CurrentWeapon = MainWeapon;
+			HoldWeapon();
+		}
+		else
+		{
+			CurrentWeapon = SubWeapon;
+			HoldWeapon();
+		}
+	}
+}
+void ABTCharacter::PutWeapon()
+{
+	CurrentWeapon->Destroy();
+}
+void ABTCharacter::HoldWeapon()
+{
+	if (CurrentWeapon != nullptr)
+	{
+		CurrentWeapon->Destroy();
+		FName WeaponSocket(TEXT("middle_01_rSocket"));
+		AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+		CurrentWeapon->SetOwner(this);
+		SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));
+	}
+}
+
 
 // Called every frame
 void ABTCharacter::Tick(float DeltaTime)
@@ -94,9 +146,11 @@ void ABTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &ABTCharacter::StopAim);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &ABTCharacter::StartAttack);
 	PlayerInputComponent->BindAction("Attack", IE_Released, this, &ABTCharacter::StopAttack);
+	PlayerInputComponent->BindAction("ToggleWeapon", IE_Pressed, this, &ABTCharacter::ChangeWeapon);
+	PlayerInputComponent->BindAction("PutWeapon", IE_Pressed, this, &ABTCharacter::PutWeapon);
 	PlayerInputComponent->BindAxis("LookUp", this, &ABTCharacter::LookUp);
 	PlayerInputComponent->BindAxis("Turn", this, &ABTCharacter::Turn);
-	PlayerInputComponent->BindAxis("UPDown", this, &ABTCharacter::UpDown);
+	PlayerInputComponent->BindAxis("UpDown", this, &ABTCharacter::UpDown);
 	PlayerInputComponent->BindAxis("LeftRight", this, &ABTCharacter::LeftRight);
 }
 
@@ -148,6 +202,6 @@ void ABTCharacter::StartAttack()
 }
 void ABTCharacter::StopAttack()
 {
-	if (CurrentWeapon != nullptr)
+	if(CurrentWeapon != nullptr)
 		CurrentWeapon->StopAttack();
 }
