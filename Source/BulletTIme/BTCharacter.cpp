@@ -94,8 +94,10 @@ void ABTCharacter::ChangeWeapon()
 			if (SubWeapon != nullptr)
 			{
 				CurrentWeapon = SubWeapon; //Change to sub
-				MainWeapon->StopAttack();
-				SubWeapon->StopAttack();
+				if (MainWeapon != nullptr)
+					MainWeapon->StopAttack();
+				if (SubWeapon != nullptr)
+					SubWeapon->StopAttack();
 				HoldWeapon();
 
 			}
@@ -105,8 +107,10 @@ void ABTCharacter::ChangeWeapon()
 			if (MainWeapon != nullptr)
 			{
 				CurrentWeapon = MainWeapon; //Change to main
-				MainWeapon->StopAttack();
-				SubWeapon->StopAttack();
+				if (MainWeapon != nullptr)
+					MainWeapon->StopAttack();
+				if (SubWeapon != nullptr)
+					SubWeapon->StopAttack();
 				HoldWeapon();
 			}
 		}
@@ -116,16 +120,20 @@ void ABTCharacter::ChangeWeapon()
 		if (MainWeapon != nullptr) //If Main existes
 		{
 			CurrentWeapon = MainWeapon;
-			MainWeapon->StopAttack();
-			SubWeapon->StopAttack();
+			if (MainWeapon != nullptr)
+				MainWeapon->StopAttack();
+			if (SubWeapon != nullptr)
+				SubWeapon->StopAttack();
 			HoldWeapon();
 			return;
 		}
 		if (SubWeapon != nullptr)
 		{
 			CurrentWeapon = SubWeapon; //If sub existes
-			MainWeapon->StopAttack();
-			SubWeapon->StopAttack();
+			if (MainWeapon != nullptr)
+				MainWeapon->StopAttack();
+			if (SubWeapon != nullptr)
+				SubWeapon->StopAttack();
 			HoldWeapon();
 			return;
 		}
