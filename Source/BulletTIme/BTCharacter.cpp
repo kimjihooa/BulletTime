@@ -94,7 +94,10 @@ void ABTCharacter::ChangeWeapon()
 			if (SubWeapon != nullptr)
 			{
 				CurrentWeapon = SubWeapon; //Change to sub
+				MainWeapon->StopAttack();
+				SubWeapon->StopAttack();
 				HoldWeapon();
+
 			}
 		}
 		else //If holding sub
@@ -102,6 +105,8 @@ void ABTCharacter::ChangeWeapon()
 			if (MainWeapon != nullptr)
 			{
 				CurrentWeapon = MainWeapon; //Change to main
+				MainWeapon->StopAttack();
+				SubWeapon->StopAttack();
 				HoldWeapon();
 			}
 		}
@@ -111,12 +116,18 @@ void ABTCharacter::ChangeWeapon()
 		if (MainWeapon != nullptr) //If Main existes
 		{
 			CurrentWeapon = MainWeapon;
+			MainWeapon->StopAttack();
+			SubWeapon->StopAttack();
 			HoldWeapon();
+			return;
 		}
 		if (SubWeapon != nullptr)
 		{
 			CurrentWeapon = SubWeapon; //If sub existes
+			MainWeapon->StopAttack();
+			SubWeapon->StopAttack();
 			HoldWeapon();
+			return;
 		}
 		return;
 	}
@@ -128,11 +139,13 @@ void ABTCharacter::PutWeapon()
 	{
 		FName WeaponSocket = TEXT("spine_03Socket_main");
 		MainWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+		MainWeapon->StopAttack();
 	}
 	if (SubWeapon != nullptr)
 	{
 		FName WeaponSocket = TEXT("spine_03Socket_sub");
 		SubWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+		SubWeapon->StopAttack();
 	}
 }
 void ABTCharacter::HoldWeapon()
