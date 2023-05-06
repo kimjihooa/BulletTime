@@ -67,10 +67,14 @@ void ABTCharacter::SetWeapon(ABTWeapon* NewWeapon)
 	{
 		if(NewWeapon->IsMainWeapon)
 		{
+			if(MainWeapon != nullptr)
+				MainWeapon->Destroy();
 			MainWeapon = NewWeapon;
 		}
 		else
 		{
+			if(SubWeapon != nullptr)
+				SubWeapon->Destroy();
 			SubWeapon = NewWeapon;
 		}
 	}
@@ -125,8 +129,6 @@ void ABTCharacter::HoldWeapon(ABTWeapon* Weapon)
 		if (CurrentWeapon != nullptr)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("sdfsdfsfdsfs"));
-			CurrentWeapon->Destroy();
-			Weapon = GetWorld()->SpawnActor<ABTWeapon>(FVector::ZeroVector, FRotator::ZeroRotator);
 			FName WeaponSocket(TEXT("middle_01_rSocket"));
 			Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
 			Weapon->SetOwner(this);
