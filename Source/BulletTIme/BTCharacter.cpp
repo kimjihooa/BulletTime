@@ -70,12 +70,18 @@ void ABTCharacter::SetWeapon(ABTWeapon* NewWeapon)
 			if(MainWeapon != nullptr)
 				MainWeapon->Destroy();
 			MainWeapon = NewWeapon;
+			MainWeapon->SetOwner(this);
+			FName WeaponSocket(TEXT("spine_03Socket_main"));
+			MainWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
 		}
 		else
 		{
 			if(SubWeapon != nullptr)
 				SubWeapon->Destroy();
 			SubWeapon = NewWeapon;
+			SubWeapon->SetOwner(this);
+			FName WeaponSocket(TEXT("spine_03Socket_sub"));
+			SubWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
 		}
 	}
 }
@@ -117,18 +123,46 @@ void ABTCharacter::ChangeWeapon()
 }
 void ABTCharacter::PutWeapon()
 {
-	CurrentWeapon->Destroy();
 	CurrentWeapon = nullptr;
+	if (MainWeapon != nullptr)
+	{
+		FName WeaponSocket = TEXT("spine_03Socket_main");
+		MainWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+	}
+	if (SubWeapon != nullptr)
+	{
+		FName WeaponSocket = TEXT("spine_03Socket_sub");
+		SubWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+	}
 }
 void ABTCharacter::HoldWeapon()
 {
 	if (CurrentWeapon != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("sdfsdfsfdsfs"));
-		FName WeaponSocket(TEXT("middle_01_rSocket"));
-		CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
-		CurrentWeapon->SetOwner(this);
-		CurrentWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
+		if (CurrentWeapon == MainWeapon)
+		{
+			FName WeaponSocket(TEXT("middle_01_rSocket"));
+			MainWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+			MainWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
+			if (SubWeapon != nullptr)
+			{
+				WeaponSocket = TEXT("spine_03Socket_sub");
+				SubWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+				SubWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
+			}
+		}
+		else
+		{
+			FName WeaponSocket(TEXT("middle_01_rSocket"));
+			SubWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+			SubWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
+			if (MainWeapon != nullptr)
+			{
+				WeaponSocket = TEXT("spine_03Socket_main");
+				MainWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+				MainWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
+			}
+		}
 	}
 
 }

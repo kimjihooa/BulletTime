@@ -52,7 +52,6 @@ public:
 		void PutWeapon();
 	UFUNCTION()
 		void ChangeWeapon();
-	bool IsHoldingWeapon;
 
 private:
 	void StartJump();
