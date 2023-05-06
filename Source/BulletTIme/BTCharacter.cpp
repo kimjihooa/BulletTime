@@ -88,7 +88,7 @@ void ABTCharacter::ChangeWeapon()
 			if (SubWeapon != nullptr)
 			{
 				CurrentWeapon = SubWeapon; //Change to sub
-				HoldWeapon(CurrentWeapon);
+				HoldWeapon();
 			}
 		}
 		else //If holding sub
@@ -96,7 +96,7 @@ void ABTCharacter::ChangeWeapon()
 			if (MainWeapon != nullptr)
 			{
 				CurrentWeapon = MainWeapon; //Change to main
-				HoldWeapon(CurrentWeapon);
+				HoldWeapon();
 			}
 		}
 	}
@@ -105,12 +105,12 @@ void ABTCharacter::ChangeWeapon()
 		if (MainWeapon != nullptr) //If Main existes
 		{
 			CurrentWeapon = MainWeapon;
-			HoldWeapon(CurrentWeapon);
+			HoldWeapon();
 		}
 		if (SubWeapon != nullptr)
 		{
 			CurrentWeapon = SubWeapon; //If sub existes
-			HoldWeapon(CurrentWeapon);
+			HoldWeapon();
 		}
 		return;
 	}
@@ -120,22 +120,17 @@ void ABTCharacter::PutWeapon()
 	CurrentWeapon->Destroy();
 	CurrentWeapon = nullptr;
 }
-void ABTCharacter::HoldWeapon(ABTWeapon* Weapon)
+void ABTCharacter::HoldWeapon()
 {
-	if (Weapon == CurrentWeapon)
-		return;
-	else
+	if (CurrentWeapon != nullptr)
 	{
-		if (CurrentWeapon != nullptr)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("sdfsdfsfdsfs"));
-			FName WeaponSocket(TEXT("middle_01_rSocket"));
-			Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
-			Weapon->SetOwner(this);
-			Weapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
-			CurrentWeapon = Weapon;
-		}
+		UE_LOG(LogTemp, Warning, TEXT("sdfsdfsfdsfs"));
+		FName WeaponSocket(TEXT("middle_01_rSocket"));
+		CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+		CurrentWeapon->SetOwner(this);
+		CurrentWeapon->SetActorRelativeRotation(FRotator(0.0f, 0.0f, 90.0f));  //Delete this later!!!!!!!!!!
 	}
+
 }
 
 

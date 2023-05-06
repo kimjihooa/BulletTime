@@ -47,7 +47,7 @@ public:
 	UFUNCTION()
 		void StopAttack();
 	UFUNCTION()
-		void HoldWeapon(ABTWeapon* Weapon);
+		void HoldWeapon();
 	UFUNCTION()
 		void PutWeapon();
 	UFUNCTION()
