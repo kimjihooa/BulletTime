@@ -53,6 +53,11 @@ ABTCharacter::ABTCharacter()
 	ArmSpeed = 10.0f;
 	LengthTo = NormalModeLength;
 	LoTo = NormalModeLo;
+
+	WalkSpeed = 600.0f;
+	RunSpeed = 1000.0f;
+	CrawlSpeed = 350.0f;
+	SpeedMultiplier = 1.0f;
 }
 
 // Called when the game starts or when spawned
@@ -204,6 +209,8 @@ void ABTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABTCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABTCharacter::StopJump);
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ABTCharacter::StartRun);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &ABTCharacter::StopRun);
 	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &ABTCharacter::StartAim);
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &ABTCharacter::StopAim);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &ABTCharacter::StartAttack);
@@ -224,13 +231,21 @@ void ABTCharacter::StopJump()
 {
 	bPressedJump = false;
 }
+void ABTCharacter::StartRun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = RunSpeed * SpeedMultiplier;
+}
+void ABTCharacter::StopRun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed * SpeedMultiplier;
+}
 void ABTCharacter::StartAim()
 {
 	LengthTo = AimModeLength;
 	LoTo = AimModeLo;
 	bUseControllerRotationYaw = true;
 	GetCharacterMovement()->bOrientRotationToMovement = false;
-	GetCharacterMovement()->MaxWalkSpeed = 350.0f;
+	GetCharacterMovement()->MaxWalkSpeed = CrawlSpeed * SpeedMultiplier;
 }
 void ABTCharacter::StopAim()
 {
@@ -238,7 +253,7 @@ void ABTCharacter::StopAim()
 	LoTo = NormalModeLo;
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed * SpeedMultiplier;
 }
 void ABTCharacter::UpDown(float AxisValue)
 {

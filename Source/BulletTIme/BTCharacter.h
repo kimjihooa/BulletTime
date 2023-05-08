@@ -53,9 +53,20 @@ public:
 	UFUNCTION()
 		void ChangeWeapon();
 
+	UPROPERTY(Editanywhere, Category = Movement)
+		float WalkSpeed;
+	UPROPERTY(Editanywhere, Category = Movement)
+		float RunSpeed;
+	UPROPERTY(Editanywhere, Category = Movement)
+		float CrawlSpeed;
+	UPROPERTY(EditAnywhere, Category = Movement)
+		float SpeedMultiplier;
+
 private:
 	void StartJump();
 	void StopJump();
+	void StartRun();
+	void StopRun();
 	void StartAim();
 	void StopAim();
 	void UpDown(float AxisValue);
