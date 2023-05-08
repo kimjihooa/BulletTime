@@ -10,6 +10,7 @@ ABTWeapon::ABTWeapon()
 	PrimaryActorTick.bCanEverTick = false;
 
 	DamageMultiplier = 0.0f;
+	IsMainWeapon = true;
 }
 
 // Called when the game starts or when spawned

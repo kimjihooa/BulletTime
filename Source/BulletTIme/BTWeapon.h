@@ -30,4 +30,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Weapon)
 		USkeletalMeshComponent* Weapon;
 	float DamageMultiplier;
+
+	bool IsMainWeapon;
 };
