@@ -8,6 +8,9 @@
 #include "Components/ArrowComponent.h"
 #include "BTWeapon.generated.h"
 
+DECLARE_DELEGATE(FStartAttackDelegate);
+DECLARE_DELEGATE(FStopAttackDelegate);
+
 UCLASS()
 class BULLETTIME_API ABTWeapon : public AActor
 {
@@ -24,12 +27,28 @@ protected:
 public:	
 	// Called every frame
 	//virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		UArrowComponent* Arrow;
+
 	virtual void StartAttack();
+	FStartAttackDelegate StartAttackDelegate;
 	virtual void StopAttack();
+	FStopAttackDelegate StopAttackDelegete;
+
+	enum WeaponType;
+	void SetWeapon(WeaponType Type);
+	WeaponType CurrentWeapon;
+
+	UFUNCTION()
+		void RapidStart();
+	UFUNCTION()
+		void RapidStop();
 
 	UPROPERTY(VisibleAnywhere, Category = Weapon)
 		USkeletalMeshComponent* Weapon;
-	float DamageMultiplier;
-
-	bool IsMainWeapon;
+	UPROPERTY(EditAnywhere)
+		float DamageMultiplier;
+	UPROPERTY(EditAnywhere)
+		float Speed;
 };
