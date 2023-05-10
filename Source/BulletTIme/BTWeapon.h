@@ -34,7 +34,7 @@ public:
 	virtual void StartAttack();
 	FStartAttackDelegate StartAttackDelegate;
 	virtual void StopAttack();
-	FStopAttackDelegate StopAttackDelegete;
+	FStopAttackDelegate StopAttackDelegate;
 
 	enum WeaponType;
 	void SetWeapon(WeaponType Type);

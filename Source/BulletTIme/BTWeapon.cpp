@@ -4,6 +4,16 @@
 #include "BTWeapon.h"
 
 // Sets default values
+
+enum ABTWeapon::WeaponType
+{
+	None,
+	Rapid,
+	Single,
+	Charge,
+	Pistol
+};
+
 ABTWeapon::ABTWeapon()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -34,13 +44,6 @@ ABTWeapon::ABTWeapon()
 
 	CurrentWeapon = None;
 }
-enum ABTWeapon::WeaponType
-{
-	None,
-	Rapid,
-	Single,
-	Charge
-};
 
 void ABTWeapon::SetWeapon(WeaponType Type)
 {
@@ -49,7 +52,7 @@ void ABTWeapon::SetWeapon(WeaponType Type)
 	if (StartAttackDelegate.IsBound())
 		StartAttackDelegate.Unbind();
 	if (StopAttackDelegate.IsBound())
-		StopAttackDelegate.UnBind();
+		StopAttackDelegate.Unbind();
 	switch (Type)
 	{
 	case None:

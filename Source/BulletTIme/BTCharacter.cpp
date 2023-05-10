@@ -70,7 +70,7 @@ void ABTCharacter::SetWeapon(ABTWeapon* NewWeapon)
 {
 	if(NewWeapon != nullptr)
 	{
-		if(NewWeapon->IsMainWeapon)
+		if(true) //Change this later!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		{
 			if(MainWeapon != nullptr)
 				MainWeapon->Destroy();
